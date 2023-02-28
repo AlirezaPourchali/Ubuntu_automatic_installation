@@ -19,8 +19,9 @@ $ mount -o loop <iso name> mnt
 $ cp --no-preserve=all mnt/boot/grub/grub.cfg /tmp/grub.cfg
 ```
 
-3. adding  `autoinstall quiet ds=nocloud-net\;s=http://192.168.122.1/`  between `/casper/vmlinuz` and `---`
-ps: the ip has to be accessible
+3. adding  `autoinstall quiet ds=nocloud-net\;s=http://192.168.122.1/`  between `/casper/vmlinuz` and `---`      
+
+* ps: the ip has to be accessible by the server      
 4. set the timeout to `1` second:
 ![f8b1496b9760d29522bfadb9145276ba.png](./_resources/f8b1496b9760d29522bfadb9145276ba.png)
 5. for creating a new iso file follow the steps:
@@ -62,13 +63,12 @@ autoinstall:
   late-commands:
   	# random hostname 
     - echo ubuntu-host-$(openssl rand -hex 3) > /target/etc/hostname
-   # see the ip address 
+   # see the ip address in login page 
     - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
     # shut-down the host to avoid installation loop
     - shutdown -h now
 
   user-data:
-    #hostname: core1
     disable_root: true
     package_upgrade: false
     users:
@@ -78,23 +78,24 @@ autoinstall:
         lock_passwd: false
         shell: /bin/bash
         ssh_authorized_keys:
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHm1qQVTEWv9S9ksWqizbgAeYE4/D5OteN3J/HYffpAv alireza@arp" 
+          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAv9S9ksWqizbgAeYE4/D5OteN3J/HYffpAv alireza@arp" 
         sudo: ALL=(ALL) NOPASSWD:ALL
     chpasswd:
       list: |
         root:1
         core5g:1
       expire: false
-    # shutdown after cloud-init config
+    # reboot after cloud-init config
     power_state:
       mode: reboot
 ```
 
-user : core5g , root
-password : 1 
-change the ssh-key with your own public key
+users : core5g , root             
+password : 1             
+change the ssh-key with your own public key                    
+you can modify this as you please , search in cloudinit document for more modification.        
 ***
-* make the following empty files or it will fail:
+* make the following empty files or it will fail: 
 ```
 $ touch meta-data vendor-data
 ```
@@ -103,7 +104,7 @@ $ touch meta-data vendor-data
 ```
 python3 -m http.server 80
 ```
-ps: you have to give the current device ip when modifying the iso file in the first step 
+ps : you have to give the current device ip when modifying the iso file in the first step 
 
 # booting
 * just change the boot order to the usb and it should be fine
