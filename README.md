@@ -21,7 +21,7 @@ $ cp --no-preserve=all mnt/boot/grub/grub.cfg /tmp/grub.cfg
 
 3. adding  `autoinstall quiet ds=nocloud-net\;s=http://192.168.122.1/`  between `/casper/vmlinuz` and `---`
 ps: the ip has to be accessible
-4.set the timeout to `1` second:
+4. set the timeout to `1` second:
 ![f8b1496b9760d29522bfadb9145276ba.png](./_resources/f8b1496b9760d29522bfadb9145276ba.png)
 5. for creating a new iso file follow the steps:
 * clone the repo:
